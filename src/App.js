@@ -1,29 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Form, Button, Container, Row, Col} from 'react-bootstrap'
 
 import modulesData from './fixtures/modules'
 
 function App() {
-  // const [state, setState] = useState({
-  //   title:'',
-  //   meta:'',
-  //   desciption:'',
-  //   category:'',
-  //   slug:'',
-  //   indexing: false
-  // })
-
   const [title, setTitle] = useState('');
   const [meta, setMeta] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState([]);
-  const [slug, setSlug] = useState('');
+  // const [slug, setSlug] = useState('');
   const [indexing, setIndexing] = useState(false)
 
-  const [content, setContent] = useState('')
-  const [contentArray, setContentArray] = useState([]);
+  const [module, setModule] = useState('')
+  const [modules, setModules] = useState([]);
 
   const onTitleChange = ({target}) => {
     setTitle(target.value);
@@ -41,8 +32,8 @@ function App() {
     setCategory(target.value);
   }
 
-  const onContentChange = ({target}) => {
-    setContent(target.value);
+  const onModuleChange = ({target}) => {
+    setModule(target.value);
   }
 
   const onClickCategory = () => {
@@ -53,18 +44,24 @@ function App() {
     })
   }
 
-  const onClickContent = () => {
-    setContentArray(prevContentArray =>{
+  const onClickModule = () => {
+    setModules(prevModules =>{
       return(
-        [...prevContentArray, content]
+        [...prevModules, module]
       )
     })
   }
 
+  const onDeleteModule = id => {
+    console.log(id.key)
+  }
+
   // use useEffect to set the default values for the select dropdowns
-  useEffect(()=>{
-    setContent(modulesData[0].name)
-  },[])
+  // this is not working the way it should
+  // useEffect(()=>{
+  //   console.log('useeffect')
+  //   setModules(modulesData[0].name)
+  // },[])
   
   return (
     <Container>
@@ -138,17 +135,17 @@ function App() {
                 <Form.Check type="checkbox" defaultChecked={indexing} onChange={() => setIndexing(!indexing)} />
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId="formContentSelect">
-              <Form.Label column sm="2">Content selector</Form.Label>
+            <Form.Group as={Row} controlId="formModuleSelect">
+              <Form.Label column sm="2">module selector</Form.Label>
               <Col sm="8">
-                <Form.Control as="select" defaultValue="Choose..." onChange={onContentChange}>
+                <Form.Control as="select" defaultValue="Choose..." onChange={onModuleChange}>
                   {modulesData.map((module) => (
                     <option key={module.id} value={module.name}>{module.name}</option>
                   ))}
                 </Form.Control>
               </Col>
               <Col sm="2">
-                <Button variant="primary" onClick={onClickContent}>+</Button>
+                <Button variant="primary" onClick={onClickModule}>+</Button>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="formPlaintextTodo">
@@ -183,15 +180,15 @@ function App() {
           </Row>
           <Row>
           <Col>
-            {contentArray.map((content, key)=>{
+            {modules.map((module, key)=>{
               return (
                 <Row key={key}>
-                  <Col>{content} - {key}</Col>
-                  <Col><Button variant="primary" size="sm">delete</Button></Col>
+                  <Col>{module} - {key}</Col>
+                  <Col><Button variant="primary" size="sm" onClick={() =>{onDeleteModule({key})}}>delete</Button></Col>
                 </Row>
               )
             })}
-            selected content : {content}
+            selected module : {module}
             </Col>
           </Row>
           <Row>
