@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import {Form, Button, Container, Row, Col} from 'react-bootstrap'
+
+import modulesData from './fixtures/modules'
 
 function App() {
   // const [state, setState] = useState({
@@ -20,6 +22,9 @@ function App() {
   const [slug, setSlug] = useState('');
   const [indexing, setIndexing] = useState(false)
 
+  const [content, setContent] = useState('')
+  const [contentArray, setContentArray] = useState([]);
+
   const onTitleChange = ({target}) => {
     setTitle(target.value);
   }
@@ -36,6 +41,10 @@ function App() {
     setCategory(target.value);
   }
 
+  const onContentChange = ({target}) => {
+    setContent(target.value);
+  }
+
   const onClickCategory = () => {
     setCategories(prevCategories => {
       return (
@@ -44,6 +53,19 @@ function App() {
     })
   }
 
+  const onClickContent = () => {
+    setContentArray(prevContentArray =>{
+      return(
+        [...prevContentArray, content]
+      )
+    })
+  }
+
+  // use useEffect to set the default values for the select dropdowns
+  useEffect(()=>{
+    setContent(modulesData[0].name)
+  },[])
+  
   return (
     <Container>
       <Row>
@@ -119,15 +141,14 @@ function App() {
             <Form.Group as={Row} controlId="formContentSelect">
               <Form.Label column sm="2">Content selector</Form.Label>
               <Col sm="8">
-                <Form.Control as="select" defaultValue="Choose...">
-                  <option>Choose...</option>
-                  <option>Module x</option>
-                  <option>Module y</option>
-                  <option>...</option>
+                <Form.Control as="select" defaultValue="Choose..." onChange={onContentChange}>
+                  {modulesData.map((module) => (
+                    <option>{module.name}</option>
+                  ))}
                 </Form.Control>
               </Col>
               <Col sm="2">
-                <Button variant="primary">+</Button>
+                <Button variant="primary" onClick={onClickContent}>+</Button>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="formPlaintextTodo">
@@ -157,6 +178,16 @@ function App() {
               )
             })}
             selected category : {category}
+          </Row>
+          <Row>
+            {contentArray.map((content, key)=>{
+              return (
+                <>
+                <h2 key={key}>{content}</h2>
+                </>
+              )
+            })}
+            selected content : {content}
           </Row>
           <Row>
           {indexing? "indexing: true": "indexing: false"}
