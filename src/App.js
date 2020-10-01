@@ -143,7 +143,7 @@ function App() {
               <Col sm="8">
                 <Form.Control as="select" defaultValue="Choose..." onChange={onContentChange}>
                   {modulesData.map((module) => (
-                    <option>{module.name}</option>
+                    <option key={module.id} value={module.name}>{module.name}</option>
                   ))}
                 </Form.Control>
               </Col>
@@ -163,34 +163,41 @@ function App() {
         </Col>
         <Col>
           <Row>
-            title : {title}
+            <Col>title : {title}</Col>
           </Row>
           <Row>
-            meta : {meta}
+            <Col>meta : {meta}</Col>
           </Row>
           <Row>
-            description:{description}
+            <Col>description:{description}</Col>
           </Row>
           <Row>
+            <Col>
             {categories.map((category, key)=>{
               return (
                 <h2 key={key}>{category}</h2>
               )
             })}
             selected category : {category}
+            </Col>
           </Row>
           <Row>
+          <Col>
             {contentArray.map((content, key)=>{
               return (
-                <>
-                <h2 key={key}>{content}</h2>
-                </>
+                <Row key={key}>
+                  <Col>{content} - {key}</Col>
+                  <Col><Button variant="primary" size="sm">delete</Button></Col>
+                </Row>
               )
             })}
             selected content : {content}
+            </Col>
           </Row>
           <Row>
-          {indexing? "indexing: true": "indexing: false"}
+            <Col>
+            {indexing? "indexing: true": "indexing: false"}
+            </Col>
           </Row>
         </Col>
       </Row>
