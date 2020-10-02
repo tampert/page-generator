@@ -53,7 +53,12 @@ function App() {
   }
 
   const onDeleteModule = id => {
-    console.log(id.key)
+    //https://stackoverflow.com/questions/29527385/removing-element-from-array-in-component-state
+    setModules(prevModules =>{
+      return(
+        [...prevModules].filter((_, i) => i !== id.key)
+      )
+    })
   }
 
   // use useEffect to set the default values for the select dropdowns
@@ -183,12 +188,11 @@ function App() {
             {modules.map((module, key)=>{
               return (
                 <Row key={key}>
-                  <Col>{module} - {key}</Col>
+                  <Col>{module}</Col>
                   <Col><Button variant="primary" size="sm" onClick={() =>{onDeleteModule({key})}}>delete</Button></Col>
                 </Row>
               )
             })}
-            selected module : {module}
             </Col>
           </Row>
           <Row>
