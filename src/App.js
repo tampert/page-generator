@@ -77,6 +77,9 @@ function App() {
       </Row>
       <Row>
         <Col>
+          <Row>
+            <Col><h3>Settings</h3></Col>
+          </Row>
           <Form>
             <Form.Group as={Row} controlId="formPlaintextTitle">
               <Form.Label column sm="2">
@@ -163,7 +166,10 @@ function App() {
           </Form.Group>
           </Form>
         </Col>
-        <Col>
+        <Col style={{backgroundColor:'#eeeeee'}}>
+          <Row >
+            <Col><h3>Preview</h3></Col>
+          </Row>
           <Row>
             <Col>title : {title}</Col>
           </Row>
