@@ -1,11 +1,49 @@
 [
     {
       "id": 1,
-      "name": "article"
+      "name": "article",
+      "props" : [{
+        "name" : "title",
+        "value" : "title value"
+      },{
+        "name": "subTitle", 
+        "value" : "subTitle value"
+      }]
     },
     {
       "id": 2,
-      "name": "banner"
+      "name": "banner",
+      "props" : [{
+        "name" : "image",
+        "value" : "image string"
+      },{
+        "name": "title", 
+        "value" : "subTitle value"
+      },{
+        "name": "smallText", 
+        "value" : "smallText value"
+      },{
+        "name": "description", 
+        "value" : "description value"
+      },{
+        "name": "linkText", 
+        "value" : "linkText value"
+      },{
+        "name": "link", 
+        "value" : "link value"
+      },{
+        "name": "bigText", 
+        "value" : "bigText value"
+      },{
+        "name": "linkAs", 
+        "value" : "linkAs value"
+      },{
+        "name": "full", 
+        "value" : "full value"
+      },{
+        "name": "dark", 
+        "value" : "subTitle value"
+      }]
     },
     {
       "id": 3,
