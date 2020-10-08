@@ -4,10 +4,12 @@
       "name": "article",
       "props" : [{
         "name" : "title",
-        "value" : "title value"
+        "value" : "title value",
+        "type" : "text"
       },{
         "name": "subTitle", 
-        "value" : "subTitle value"
+        "value" : "subTitle value",
+        "type" : "text"
       }]
     },
     {
@@ -15,34 +17,44 @@
       "name": "banner",
       "props" : [{
         "name" : "image",
-        "value" : "image string"
+        "value" : "image string",
+        "type" : "text"
       },{
         "name": "title", 
-        "value" : "subTitle value"
+        "value" : "subTitle value",
+        "type" : "text"
       },{
         "name": "smallText", 
-        "value" : "smallText value"
+        "value" : "smallText value",
+        "type" : "text"
       },{
         "name": "description", 
-        "value" : "description value"
+        "value" : "description value",
+        "type" : "text"
       },{
         "name": "linkText", 
-        "value" : "linkText value"
+        "value" : "linkText value",
+        "type" : "text"
       },{
         "name": "link", 
-        "value" : "link value"
+        "value" : "link value",
+        "type" : "text"
       },{
         "name": "bigText", 
-        "value" : "bigText value"
+        "value" : "bigText value",
+        "type" : "text"
       },{
         "name": "linkAs", 
-        "value" : "linkAs value"
+        "value" : "linkAs value",
+        "type" : "text"
       },{
         "name": "full", 
-        "value" : "full value"
+        "value" : "full value",
+        "type" : "text"
       },{
         "name": "dark", 
-        "value" : "subTitle value"
+        "value" : "subTitle value",
+        "type" : "text"
       }]
     },
     {

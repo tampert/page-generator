@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import {ListGroup, Form, Button, Container, Row, Col} from 'react-bootstrap'
-
 import modulesData from './fixtures/modules'
 
 function App() {
@@ -15,6 +14,17 @@ function App() {
 
   const [module, setModule] = useState('')
   const [modules, setModules] = useState([]);
+
+
+  // modules + Settings
+  const [selectedModules, setSeletedModules] = useState([]);
+
+
+  // API calls
+  const [popularCities, setPopularCities] = useState([
+    {}, {}, {}, {}, {}
+  ]);
+
 
   const onTitleChange = ({target}) => {
     setTitle(target.value);
@@ -45,13 +55,16 @@ function App() {
   // }
 
   const onClickModule = () => {
-    if(module.length <= 0) setModule(modulesData[0].name)
-    console.log(module)
+    // set default module
+    // if(module.length <= 0) setModule(modulesData[0].name)
     setModules(prevModules =>{
       return(
         [...prevModules, module]
       )
     })
+    // set selected module + settings
+    const newModule = modulesData.find((item) => item.name === module)
+    setSeletedModules([...selectedModules, newModule])
   }
 
   const onDeleteModule = id => {
@@ -61,6 +74,18 @@ function App() {
         [...prevModules].filter((_, i) => i !== id.key)
       )
     })
+
+    setSeletedModules(prevSelectedModules => {
+      return (
+        [...prevSelectedModules].filter((_, i) => i !== id.key)
+      )
+    })
+  }
+
+  const addModuleToPage = id => {
+    const toAdd = selectedModules.filter((_, i) => i === id.key)
+    console.log(toAdd)
+    console.log("now add this module to the new page")
   }
 
   // use useEffect to set the default values for the select dropdowns
@@ -68,11 +93,25 @@ function App() {
   useEffect(()=>{
     console.log('use effect')
     setModule(modulesData[0].name)
+    loadPopularCities();
   },[])
-  
-  useEffect(()=>{
-    console.log(modules)
-  }, [modules])
+
+  const loadPopularCities = async () => {
+    let popularCities;
+
+    await fetch("https://api.govesta.co/api/v1/geo/popular?type=city&limit=10")
+    .then(res => res.json())
+    .then(
+      (result) => {
+        popularCities = result.data
+        setPopularCities(popularCities);
+      },
+      (error) => {
+        popularCities = [];
+      }
+    )
+  }
+
   return (
     <Container>
       <Row>
@@ -163,35 +202,32 @@ function App() {
               </Col>
             </Form.Group>
             <ListGroup>
-              {modules && modules.map((module, key)=>{
+              {selectedModules && selectedModules.map((module, key)=>{
               return (
                 <ListGroup.Item  key={key}>
                 <Row>
-                  <Col>{module}</Col>
+                  <Col>{module.name}</Col>
                   <Col className="text-right">
                     <Button variant="primary" className="close" aria-label="Close" size="sm" onClick={() =>{onDeleteModule({key})}}>
                       <span aria-hidden="true">&times;</span>
                     </Button>
                   </Col>
                 </Row>
+                    {module.props &&  module.props.map((prop, i) => {
+                      return (
+                        <Row key={i}>
+                          <Col>{prop.name}</Col>
+                          <Col><Form.Control type={prop.type} placeholder="" defaultValue={prop.value} /></Col>
+                        </Row>
+                      )
+                    })}
                 <Row>
-                  <Col>name</Col><Col>field</Col>
-                </Row>
-                <Row>
-                  <Col className="text-right"><Button variant="primary" size="sm" onClick={() =>{onDeleteModule({key})}}>Add</Button></Col>
+                  <Col className="text-right"><Button variant="primary" size="sm" onClick={() =>{addModuleToPage({key})}}>Add</Button></Col>
                 </Row>
                 </ListGroup.Item>
               )
             })}
               </ListGroup>
-            <Form.Group as={Row} controlId="formPlaintextTodo">
-            <Form.Label column sm="2">
-              Todo
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control plaintext readOnly defaultValue="Change Headlines + Links + Filter " />
-            </Col>
-          </Form.Group>
           </Form>
         </Col>
         <Col style={{backgroundColor:'#eeeeee'}}>
@@ -232,6 +268,15 @@ function App() {
           <Row>
             <Col>
             {indexing? "indexing: true": "indexing: false"}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+            {popularCities && popularCities.map((item, key) => {
+              return(
+              <div key={key}>{item.name}</div>
+              )
+            })}
             </Col>
           </Row>
         </Col>
